@@ -1,6 +1,7 @@
 package com.app.voteapp.controller;
 
 import com.app.voteapp.dto.userDTO;
+import com.app.voteapp.dto.voteDTO;
 import com.app.voteapp.service.VoteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,14 +27,15 @@ public class VoteController {
         this.voteService = voteService;
     }
 
-    @PostMapping("/user")
-    public ResponseEntity createUser(@Valid @RequestBody userDTO userDTO)
+    @PostMapping("/vote")
+    public ResponseEntity doVote(@Valid @RequestBody voteDTO voteDTO)
     {
-        log.info("In createUser controller");
 
-        ResponseEntity responseEntity = new ResponseEntity(voteService.getAllCourses(), HttpStatus.OK);
+        log.info("In doVote controller");
 
-        log.info("Exiting createUser controller");
+        ResponseEntity responseEntity = new ResponseEntity(voteService.doVote(voteDTO), HttpStatus.OK);
+
+        log.info("Exiting doVote controller");
         return responseEntity;
     }
 
