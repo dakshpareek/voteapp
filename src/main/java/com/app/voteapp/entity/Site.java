@@ -33,10 +33,5 @@ public class Site {
 
     private int visible = 1;
 
-    @JsonIgnore
-    @OneToMany( fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            mappedBy = "site")
-    private Set<Vote> votes = new HashSet<>();
 
 }

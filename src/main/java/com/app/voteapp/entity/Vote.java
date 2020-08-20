@@ -39,10 +39,7 @@ public class Vote {
 
     private int claimed = 1;
 
-
-    @ManyToOne( fetch = FetchType.EAGER, optional = false)
-    @JoinColumn( name = "site_id", nullable = false)
-    @OnDelete( action = OnDeleteAction.CASCADE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Site site;
 

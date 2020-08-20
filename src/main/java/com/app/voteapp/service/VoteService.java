@@ -3,9 +3,11 @@ package com.app.voteapp.service;
 import com.app.voteapp.dto.voteDTO;
 import com.app.voteapp.entity.Site;
 import com.app.voteapp.entity.Vote;
+import com.app.voteapp.exceptionhandler.CustomException;
 import com.app.voteapp.repository.siteRepo;
 import com.app.voteapp.repository.voteRepo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -52,6 +54,7 @@ public class VoteService {
         {
             //THROW ERROR
             log.info("Site id does not exists");
+            throw new CustomException("Site id does not exists", HttpStatus.NOT_FOUND,"/");
         }
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()) .getRequest();
@@ -74,5 +77,28 @@ public class VoteService {
         //CALLBACK RELATED STUFF HERE
 
         return vote;
+    }
+
+    public Object viewVote(long vote_id) {
+        log.info("In viewVote service");
+
+        Optional<Vote> voteOptional = voteRepo.findById(vote_id);
+        if(voteOptional.isEmpty())
+        {
+            log.info("Vote id does not exists");
+            throw new CustomException("Vote id does not exists", HttpStatus.NOT_FOUND,"/");
+        }
+
+        log.info("Exiting viewVote service");
+        return voteOptional.get();
+    }
+
+    public void callback(String uri) {
+        log.info("In viewVote service");
+
+        log.info("Got Callback uri : "+uri);
+
+        log.info("Exiting viewVote service");
+
     }
 }

@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -27,6 +24,18 @@ public class VoteController {
         this.voteService = voteService;
     }
 
+
+    @GetMapping("/vote/{vote_id}")
+    public ResponseEntity viewVote(@PathVariable long vote_id)
+    {
+        log.info("In viewVote controller");
+
+        ResponseEntity responseEntity = new ResponseEntity(voteService.viewVote(vote_id), HttpStatus.OK);
+
+        log.info("In viewVote controller");
+        return responseEntity;
+    }
+
     @PostMapping("/vote")
     public ResponseEntity doVote(@Valid @RequestBody voteDTO voteDTO)
     {
@@ -36,6 +45,19 @@ public class VoteController {
         ResponseEntity responseEntity = new ResponseEntity(voteService.doVote(voteDTO), HttpStatus.OK);
 
         log.info("Exiting doVote controller");
+        return responseEntity;
+    }
+
+    @GetMapping("/vote/callback")
+    public ResponseEntity callback(@RequestParam(required = true) String uri)
+    {
+        log.info("In callback controller");
+
+        voteService.callback(uri);
+
+        ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
+
+        log.info("In callback controller");
         return responseEntity;
     }
 

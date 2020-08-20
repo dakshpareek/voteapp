@@ -2,8 +2,10 @@ package com.app.voteapp.service;
 
 import com.app.voteapp.dto.siteDTO;
 import com.app.voteapp.entity.Site;
+import com.app.voteapp.exceptionhandler.CustomException;
 import com.app.voteapp.repository.siteRepo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -41,6 +43,7 @@ public class SiteService {
         {
             //THROW ERROR
             log.info("Site id does not exists");
+            throw new CustomException("Site id does not exists", HttpStatus.NOT_FOUND,"/");
         }
 
         Site site = siteOptional.get();
@@ -58,14 +61,15 @@ public class SiteService {
         log.info("In updateSite service ");
 
         //Check if site id exits in DTO
-        if(siteDTO.getId() == 0)
+        Optional<Site> siteOptional = siteRepo.findById(siteDTO.getId());
+        if(siteOptional.isEmpty())
         {
             //Throw Exception
             log.info("Site id not found");
-
+            throw new CustomException("Site id does not exists", HttpStatus.NOT_FOUND,"/");
         }
 
-        Site site = siteRepo.findById(siteDTO.getId()).get();
+        Site site = siteOptional.get();
 
         //Save DTO data to site object
         site.setTitle(siteDTO.getTitle());
@@ -75,6 +79,22 @@ public class SiteService {
         log.info("Site updated");
 
         log.info("In updateSite service");
+        return site;
+    }
+
+    public Object viewSite(long site_id) {
+        log.info("In viewSite service");
+
+        Optional<Site> site = siteRepo.findById(site_id);
+        //Check if site id exits in DTO
+        if(site.isEmpty())
+        {
+            //Throw Exception
+            log.info("Site id not found");
+            throw new CustomException("Site id does not exists", HttpStatus.NOT_FOUND,"/");
+        }
+
+        log.info("Exiting viewSite service");
         return site;
     }
 }

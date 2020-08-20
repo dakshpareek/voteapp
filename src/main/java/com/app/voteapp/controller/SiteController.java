@@ -25,6 +25,17 @@ public class SiteController {
         this.siteService = siteService;
     }
 
+    @GetMapping("/site/{site_id}")
+    public ResponseEntity viewSite(@PathVariable long site_id)
+    {
+        log.info("In viewSite controller");
+
+        ResponseEntity responseEntity = new ResponseEntity(siteService.viewSite(site_id), HttpStatus.OK);
+
+        log.info("In viewSite controller");
+        return responseEntity;
+    }
+
     @PostMapping("/site")
     public ResponseEntity addSite(@Valid @RequestBody siteDTO siteDTO)
     {

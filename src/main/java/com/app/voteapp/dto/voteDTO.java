@@ -10,6 +10,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,6 +23,6 @@ public class voteDTO {
 
     private String ipAddress;
 
-    @NotBlank(message = "Site Id can not be empty")
-    private Long siteId;
+    @NotNull(message = "Site Id can not be empty")
+    private long siteId;
 }
