@@ -57,7 +57,7 @@ public class VoteController {
 
         ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
 
-        log.info("In callback controller");
+        log.info("Exiting callback controller");
         return responseEntity;
     }
 

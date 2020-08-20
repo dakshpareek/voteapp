@@ -14,8 +14,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -63,10 +62,10 @@ public class VoteService {
 
         Vote vote = new Vote();
         vote.setUserName(voteDTO.getUserName());
-        vote.setIpAddress(voteDTO.getIpAddress());
         vote.setSite(siteOptional.get());
         //GENERATE VOTE KEY
-        vote.setVoteKey(generateVoteKey());
+        String voteKey = generateVoteKey();
+        vote.setVoteKey(voteKey);
         vote.setIpAddress(ip);
 
         voteRepo.save(vote);
@@ -76,8 +75,15 @@ public class VoteService {
         log.info("Exiting doVote service");
 
         //CALLBACK RELATED STUFF HERE
+        String urlToVisit =  siteOptional.get().getUrl();
+        urlToVisit = urlToVisit.replace("{sid}",siteOptional.get().getVoteId());
+        urlToVisit = urlToVisit.replace("{incentive}",voteKey);
+        log.info("URL to visit : "+urlToVisit);
 
-        return vote;
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("url", urlToVisit);
+
+        return body;
     }
 
     public Object viewVote(long vote_id) {

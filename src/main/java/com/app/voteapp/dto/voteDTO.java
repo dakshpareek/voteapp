@@ -21,8 +21,6 @@ public class voteDTO {
     @NotBlank(message = "User Name can not be empty")
     private String userName;
 
-    private String ipAddress;
-
     @NotNull(message = "Site Id can not be empty")
     private long siteId;
 }
