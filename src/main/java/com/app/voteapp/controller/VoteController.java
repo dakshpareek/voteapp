@@ -49,11 +49,11 @@ public class VoteController {
     }
 
     @GetMapping("/vote/callback")
-    public ResponseEntity callback(@RequestParam(required = true) String uri)
+    public ResponseEntity callback(@RequestParam(required = true) String usr)
     {
         log.info("In callback controller");
 
-        voteService.callback(uri);
+        voteService.callback(usr);
 
         ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
 

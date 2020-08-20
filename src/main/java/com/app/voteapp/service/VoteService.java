@@ -13,6 +13,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
@@ -97,6 +98,16 @@ public class VoteService {
         log.info("In viewVote service");
 
         log.info("Got Callback uri : "+uri);
+
+
+        Optional<Vote> voteOptional = voteRepo.findByVoteKey(uri);
+        if(voteOptional.isPresent())
+        {
+            Vote vote = voteOptional.get();
+            vote.setVoteOn(LocalDateTime.now());
+            voteRepo.save(vote);
+            log.info("Completed Vote");
+        }
 
         log.info("Exiting viewVote service");
 
